@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="next">Prossimo</string>
+    <string name="previous">Precedente</string>
+    <string name="title_public">Pubblico</string>
+    <string name="title_private">Privato</string>
+    <string name="settings">Impostazioni</string>
+    <string name="search">Cerca</string>
+    <string name="username">Nome Utente</string>
+    <string name="course_title">Nome percorso</string>
+    <string name="take_gps_position">Take GPS</string>
+    <string name="date">Date</string>
+    <string name="description">Description</string>
+    <string name="take_a_picture">Take a picture</string>
+    <string name="image_captured">Image captured</string>
+    <string name="add_new_track">Aggiungi</string>
+    <string name="trip_image">Immaggine del percorso</string>
+    <string name="share">Condividi</string>
+    <string name="bar_no_internet">no internet</string>
+    <string name="add_new_trip">Agiungi percorso</string>
+    <string name="dialog_permission_denied">Abilità i permessi</string>
+    <string name="dialog_cancel">Annulla</string>
+    <string name="dialog_yes">Si</string>
+    <string name="dialog_no">No</string>
+    <string name="course_length">Distanza</string>
+    <string name="dialog_save">Salva</string>
+    <string name="course_length_error">La distanza del percorso è troppo corta</string>
+    <string name="is_public">Pubblico</string>
+    <string name="distance_unit">m</string>
+    <string name="statistics">Statistiche</string>
+</resources>
