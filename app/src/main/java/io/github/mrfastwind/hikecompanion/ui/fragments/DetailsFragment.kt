@@ -10,22 +10,32 @@ import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import io.github.mrfastwind.hikecompanion.R
+import io.github.mrfastwind.hikecompanion.ViewModel.ImageViewModel
 import io.github.mrfastwind.hikecompanion.ViewModel.PublicListViewModel
+import io.github.mrfastwind.hikecompanion.carousel.CarouselAdapter
+import io.github.mrfastwind.hikecompanion.repository.ImageRepository
 import io.github.mrfastwind.hikecompanion.utils.CourseUtilities
 import io.github.mrfastwind.hikecompanion.utils.MapUtilities
+import io.github.mrfastwind.hikecompanion.utils.ShareUtilities
 import io.github.mrfastwind.hikecompanion.utils.Utilities
+import org.imaginativeworld.whynotimagecarousel.ImageCarousel
 import org.osmdroid.views.MapView
 
 open class DetailsFragment : Fragment(), MenuProvider {
+    private lateinit var imageRepository: ImageRepository
+    private lateinit var carouselAdapter: CarouselAdapter
+    private lateinit var carousel: ImageCarousel
     private lateinit var distancetextView: TextView
     private lateinit var placeTextView: TextView
     private lateinit var descriptionTextView: TextView
     private lateinit var dateTextView: TextView
     private lateinit var mapview: MapView
     private val publicListViewModel: PublicListViewModel by activityViewModels()
+    private val imageViewModel: ImageViewModel by activityViewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
+
     }
 
     override fun onCreateView(
@@ -39,12 +49,16 @@ open class DetailsFragment : Fragment(), MenuProvider {
         super.onViewCreated(view, savedInstanceState)
         val activity: Activity? = activity
         if (activity != null) {
+            imageRepository = ImageRepository(activity.application)
             Utilities.setUpToolbar(activity as AppCompatActivity, "Details")
             placeTextView = view.findViewById(R.id.name_field)
             descriptionTextView = view.findViewById(R.id.description_field)
             dateTextView = view.findViewById(R.id.date_field)
             distancetextView = view.findViewById(R.id.distance_value)
             mapview = view.findViewById(R.id.details_mapview)
+            carousel = view.findViewById(R.id.carousel)
+            carouselAdapter = CarouselAdapter(carousel)
+
 
             MapUtilities.configureView(mapview,activity,true)
 
@@ -53,13 +67,9 @@ open class DetailsFragment : Fragment(), MenuProvider {
             //Button
             view.findViewById<View>(R.id.share_button).setOnClickListener { view1: View ->
                 val shareIntent = Intent(Intent.ACTION_SEND)
+                ShareUtilities.share(this.resources,publicListViewModel.itemSelected.value!!)
                 shareIntent.putExtra(
-                    Intent.EXTRA_TEXT, """
-                         ${getString(R.string.app_name)}
-                         ${getText(R.string.course_title)}: ${placeTextView.text}
-                         ${getText(R.string.date)}: ${dateTextView.text}
-                         ${getText(R.string.description)}: ${descriptionTextView.text}
-                         """.trimIndent()
+                    Intent.EXTRA_TEXT, ShareUtilities.share(this.resources,publicListViewModel.itemSelected.value!!)
                 )
                 shareIntent.type = "text/plain"
                 val context = view1.context
@@ -86,10 +96,18 @@ open class DetailsFragment : Fragment(), MenuProvider {
     private fun setUpObserver() {
         publicListViewModel.itemSelected.observe(viewLifecycleOwner) { course ->
             placeTextView.text = course.course.name
-            descriptionTextView.text=course.course.description
-            dateTextView.text=course.course.date
-            MapUtilities.loadPath(mapview,course)
-            distancetextView.text= CourseUtilities.courseLengthAsString(course.getOrderedStages())
+            descriptionTextView.text = course.course.description
+            dateTextView.text = course.course.date
+            MapUtilities.loadPath(mapview, course)
+            distancetextView.text = CourseUtilities.courseLengthAsString(course.getOrderedStages())
+
+            //var liveList = imageRepository.loadImagesOfCourse(course)
+
+            carouselAdapter.setLiveList(imageRepository.loadImagesOfCourse(course))
+            var liveList = imageRepository.imageList
+//            liveList.observeForever {
+//                carouselAdapter.setList(liveList.value!!)
+//            }
         }
     }
 }

@@ -6,17 +6,29 @@ import android.view.ViewGroup
 import android.widget.Filter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.chip.ChipGroup
 import io.github.mrfastwind.hikecompanion.R
+import io.github.mrfastwind.hikecompanion.utils.ChipFilters
+import io.github.mrfastwind.hikecompanion.utils.CourseUtilities
 import io.github.mrfastwind.hikecompanion.utils.MapUtilities
 import java.util.*
 
 /**
  * Adapter linked to the RecyclerView of the homePage
  */
-class CourseAdapter(private val listener: OnItemListener, private val activity: Activity) :
+open class CourseAdapter(private val listener: OnItemListener, private val activity: Activity,chipGroup: ChipGroup) :
     RecyclerView.Adapter<CourseViewHolder>() {
+    private var filterQuery: String = ""
     private var courseList: List<CourseStages> = ArrayList()
     private var courseListNotFiltered: List<CourseStages> = ArrayList()
+    private var chipFilters : ChipFilters = ChipFilters(chipGroup)
+
+    init {
+        chipFilters.addOnChangeListener {
+            applyFilter()
+        }
+        applyFilter()
+    }
 
     /**
      *
@@ -48,13 +60,14 @@ class CourseAdapter(private val listener: OnItemListener, private val activity: 
         MapUtilities.loadMap(holder.courseMapView,currentCourseItem,activity)
         holder.courseTextView.text = currentCourseItem.course.name
         holder.dateTextView.text = currentCourseItem.course.date
+        holder.distance.text = CourseUtilities.courseLengthAsString(currentCourseItem.getOrderedStages())
     }
 
     override fun getItemCount(): Int {
         return courseList.size
     }
 
-    public val courseFilter: Filter = object : Filter() {
+    private val courseFilter: Filter = object : Filter() {
         /**
          * Called to filter the data according to the constraint
          * @param constraint constraint used to filtered the data
@@ -78,7 +91,7 @@ class CourseAdapter(private val listener: OnItemListener, private val activity: 
                 }
             }
             val results = FilterResults()
-            results.values = filteredList
+            results.values = filteredList.filter(chipFilters::filter)
             return results
         }
 
@@ -130,5 +143,14 @@ class CourseAdapter(private val listener: OnItemListener, private val activity: 
      */
     fun getItemSelected(position: Int): CourseStages {
         return courseList[position]
+    }
+
+    fun setFilter(newText: String) {
+        filterQuery = newText
+        applyFilter()
+    }
+
+    private fun applyFilter() {
+        courseFilter?.filter(filterQuery)
     }
 }

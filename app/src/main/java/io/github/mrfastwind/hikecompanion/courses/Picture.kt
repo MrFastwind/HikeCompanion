@@ -7,7 +7,7 @@ import java.util.*
 
 @Entity(tableName = "PICTURE",)
 class Picture(
-    @PrimaryKey val id : UUID,
+    @PrimaryKey val id : UUID = UUID.randomUUID(),
     val date:String,
     @Embedded val location:Location
     )

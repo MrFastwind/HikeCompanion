@@ -9,6 +9,7 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import io.github.mrfastwind.hikecompanion.R
+import io.github.mrfastwind.hikecompanion.utils.ImageUtilities
 import io.github.mrfastwind.hikecompanion.utils.Utilities
 import java.io.File
 
@@ -49,10 +50,10 @@ class ProfileRepository(application: Application) {
 
     @JvmName("setPictureFromDrawable")
     fun setPicture(value: Drawable){
-        setPicture(Utilities.drawableToBitmap(value))
+        setPicture(ImageUtilities.drawableToBitmap(value))
     }
 
     fun getPictureAsDrawable(activity: Activity): Drawable {
-        return Utilities.getPictureAsDrawable(activity,profileUri!!)
+        return ImageUtilities.getPictureAsDrawable(activity,profileUri!!)
     }
 }

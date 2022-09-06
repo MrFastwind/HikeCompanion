@@ -7,6 +7,8 @@ import io.github.mrfastwind.hikecompanion.courses.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
+private val ratio = 0.00001/1.11
+
 @Database(entities = [Course::class,Stage::class,Picture::class], version = 1)
 abstract class CourseDatabase : RoomDatabase() {
     abstract fun courseDAO(): CourseDAO
@@ -40,16 +42,23 @@ interface PictureDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addPicture(picture: Picture)
 
+    @Transaction
+    @Query("SELECT * FROM PICTURE")
+    fun getAllPicture(): LiveData<List<Picture>>
 
-    fun getPictureByDistance(location: Location, distance: Int):LiveData<List<Picture>>{
-        return getPictureByDistance(location.latitude,location.longitude,distance)
+    @Transaction
+    @Query("SELECT * FROM PICTURE")
+    fun getAllPictureFast(): List<Picture>
+
+    fun getPictureByDistance(location: Location, distance: Double):LiveData<List<Picture>>{
+        return getPictureByDistance(location.latitude,location.longitude,distance*ratio)
     }
 
     @Transaction
     @Query("SELECT * FROM PICTURE P " +
             "WHERE latitude BETWEEN :latitude-:distance AND :latitude+:distance " +
             "AND longitude BETWEEN :longitude-:distance AND :longitude+:distance")
-    fun getPictureByDistance(latitude: Double, longitude: Double, distance: Int): LiveData<List<Picture>>
+    fun getPictureByDistance(latitude: Double, longitude: Double, distance: Double): LiveData<List<Picture>>
 }
 
 
@@ -82,6 +91,12 @@ interface CourseDAO {
     @Transaction
     @Query("SELECT * FROM COURSE WHERE id = :uuid")
     fun getCourse(uuid: String):CourseStages?
+
+    fun deleteCourse(course: CourseStages){
+        deleteCourse(course.course)
+    }
+    @Delete
+    fun deleteCourse(course: Course)
 }
 
 @Dao

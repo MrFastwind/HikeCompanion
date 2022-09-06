@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
     <item
             android:id="@+id/app_bar_search"
             android:icon="@drawable/ic_baseline_search_24"
@@ -7,7 +9,13 @@
             app:actionViewClass="androidx.appcompat.widget.SearchView"
             app:showAsAction="ifRoom"
             android:contentDescription="@string/search" />
-
+    <item
+            android:id="@+id/app_bar_filters"
+            android:icon="@drawable/ic_baseline_filter_list_24"
+            android:title="@string/filter"
+            app:actionViewClass="com.google.android.material.chip.ChipGroup"
+            app:showAsAction="always"
+            android:contentDescription="@string/search"/>
     <item
             android:id="@+id/app_bar_settings"
             android:icon="@drawable/ic_baseline_settings_24"

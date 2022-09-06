@@ -4,6 +4,10 @@ import io.github.mrfastwind.hikecompanion.courses.Location
 import org.osmdroid.util.GeoPoint
 import kotlin.random.Random
 
+
+fun RandomGeoPathGenerator(location:Location,distance:Double):RandomGeoPathGenerator{
+    return RandomGeoPathGenerator(location.latitude,location.longitude,distance)
+}
 class RandomGeoPathGenerator(
     latitude: Double = Random.nextDouble(-90.0,90.0),
     longitude:Double = Random.nextDouble(-180.0,180.0),

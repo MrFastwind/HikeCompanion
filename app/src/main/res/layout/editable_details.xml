@@ -17,15 +17,13 @@
                 android:paddingTop="0dp"
                 android:orientation="vertical">
 
+
             <org.osmdroid.views.MapView
                     android:layout_width="match_parent"
                     android:layout_height="216dp"
                     android:id="@+id/details_mapview"
                     android:layout_gravity="top"
             />
-
-
-
             <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -136,15 +134,47 @@
 
                     android:gravity="center|start" android:minHeight="48dp"></androidx.appcompat.widget.SwitchCompat>
 
-            <Button
-                    android:id="@+id/share_button"
-                    android:layout_width="wrap_content"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/share"
-                    android:layout_gravity="center"
-                    android:layout_margin="10dp"
-                    android:backgroundTint="@color/blue_800"
-            />
+                    android:gravity="center"
+                    android:layout_marginVertical="10dp"
+                    app:layout_constraintStart_toStartOf="@+id/guideline10"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline10">
+
+                <com.google.android.material.button.MaterialButton
+                        android:id="@+id/delete_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/delete"
+                        android:layout_gravity="center"
+                        android:backgroundTint="@color/blue"
+                        app:layout_constraintStart_toStartOf="parent"
+
+                        app:layout_constraintEnd_toStartOf="@+id/guideline10"
+                        app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toBottomOf="parent"/>
+
+                <com.google.android.material.button.MaterialButton
+                        android:id="@+id/share_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/share"
+                        android:layout_gravity="center"
+                        android:backgroundTint="@color/blue"
+                        app:layout_constraintStart_toStartOf="@+id/guideline10"
+                        app:layout_constraintEnd_toEndOf="parent" app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+                <androidx.constraintlayout.widget.Guideline
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/guideline10"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.5"/>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
         </androidx.appcompat.widget.LinearLayoutCompat>
     </ScrollView>
 

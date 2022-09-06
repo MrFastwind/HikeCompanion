@@ -5,7 +5,6 @@
     android:layout_height="wrap_content"
     android:id="@+id/single_card"
     android:layout_margin="16dp"
-    app:cardBackgroundColor="@color/white"
     app:cardCornerRadius="@dimen/cardview_default_radius"
     app:strokeWidth="1dp"
     app:strokeColor="@color/material_on_surface_stroke"
@@ -28,12 +27,45 @@
                 android:text="@string/course_title"
                 android:layout_margin="3dp"/>
 
-        <TextView
-                android:id="@+id/date_textview"
+        <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/date"
-                android:layout_margin="3dp"/>
+                android:orientation="horizontal"
+                android:layout_margin="3dp"
+
+        >
+            <TextView
+                    android:id="@+id/date_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/date"
+                    android:layout_weight="1"
+            />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|end"
+            >
+                <TextView
+                        android:id="@+id/distance_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/course_length"
+                        app:layout_constraintEnd_toStartOf="@id/distance_unit"
+                        app:layout_constraintTop_toTopOf="parent"/>
+                <TextView
+
+                        android:id="@+id/distance_unit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/distance_unit"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+
 
 
     </androidx.appcompat.widget.LinearLayoutCompat>

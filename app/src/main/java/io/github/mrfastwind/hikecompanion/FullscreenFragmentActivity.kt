@@ -1,6 +1,7 @@
 package io.github.mrfastwind.hikecompanion
 
 import android.annotation.SuppressLint
+import android.content.pm.ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
@@ -25,8 +26,11 @@ class FullscreenFragmentActivity: AppCompatActivity() {
 
     @SuppressLint("ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
+
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_fullscreen)
+        requestedOrientation =SCREEN_ORIENTATION_USER_PORTRAIT
 
         intent.extras?.let {
             (it[FRAGMENT_KEY] as String?)?.let { fragment ->
@@ -45,7 +49,7 @@ class FullscreenFragmentActivity: AppCompatActivity() {
                             Log.w(CLASS_TAG,"Course not exist for UUID '$uuid'")
                             return
                         }
-                        publicmodel.setItemSelected(course!!)
+                        publicmodel.setItemSelected(course)
                         loadFragment(DetailsFragment())}
                     "EDITABLE_DETAILS" -> {
                         if(it[UUID]==null){
@@ -58,7 +62,7 @@ class FullscreenFragmentActivity: AppCompatActivity() {
                             Log.w(CLASS_TAG,"Course not exist for UUID '$uuid'")
                             return
                         }
-                        privatemodel.setItemSelected(course!!)
+                        privatemodel.setItemSelected(course)
 
                         loadFragment(EditableDetailsFragment())}
                     else ->{

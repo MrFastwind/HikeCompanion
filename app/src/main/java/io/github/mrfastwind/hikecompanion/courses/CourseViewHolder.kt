@@ -11,6 +11,7 @@ import org.osmdroid.views.MapView
  */
 class CourseViewHolder(itemView: View, listener: OnItemListener) : RecyclerView.ViewHolder(itemView),
     View.OnClickListener {
+    var distance: TextView
     var courseMapView: MapView
     var courseTextView: TextView
     var dateTextView: TextView
@@ -20,6 +21,7 @@ class CourseViewHolder(itemView: View, listener: OnItemListener) : RecyclerView.
         courseMapView = itemView.findViewById(R.id.mapview)
         courseTextView = itemView.findViewById(R.id.place_textview)
         dateTextView = itemView.findViewById(R.id.date_textview)
+        distance = itemView.findViewById(R.id.distance_value)
         itemListener = listener
         itemView.setOnClickListener(this)
     }

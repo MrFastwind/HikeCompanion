@@ -1,5 +1,6 @@
 package io.github.mrfastwind.hikecompanion.ui.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.util.Log
@@ -12,10 +13,12 @@ import androidx.appcompat.widget.SwitchCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import io.github.mrfastwind.hikecompanion.FullscreenFragmentActivity
 import io.github.mrfastwind.hikecompanion.R
 import io.github.mrfastwind.hikecompanion.ViewModel.PrivateListViewModel
 import io.github.mrfastwind.hikecompanion.utils.CourseUtilities
 import io.github.mrfastwind.hikecompanion.utils.MapUtilities
+import io.github.mrfastwind.hikecompanion.utils.ShareUtilities
 import org.osmdroid.views.MapView
 
 class EditableDetailsFragment : Fragment() {
@@ -42,6 +45,27 @@ class EditableDetailsFragment : Fragment() {
             true)
 
         val date = view.findViewById<TextView>(R.id.date_field)
+
+        view.findViewById<View>(R.id.share_button).setOnClickListener { view1: View ->
+            val shareIntent = Intent(Intent.ACTION_SEND)
+            ShareUtilities.share(this.resources,model.itemSelected.value!!)
+            shareIntent.putExtra(
+                Intent.EXTRA_TEXT, ShareUtilities.share(this.resources,model.itemSelected.value!!)
+            )
+            shareIntent.type = "text/plain"
+            val context = view1.context
+            if (context != null && shareIntent.resolveActivity(context.packageManager) != null) {
+                context.startActivity(Intent.createChooser(shareIntent, null))
+            }
+        }
+        view.findViewById<View>(R.id.delete_button).setOnClickListener { view1: View ->
+            model.deleteCourse(model.itemSelected.value!!)
+            if (requireActivity()::class.simpleName==FullscreenFragmentActivity::class.simpleName){
+                requireActivity().finish()
+            }
+            parentFragmentManager.popBackStack()
+
+    }
 
         val name = view.findViewById<EditText>(R.id.name_field)
         name.addTextChangedListener{text: Editable? ->

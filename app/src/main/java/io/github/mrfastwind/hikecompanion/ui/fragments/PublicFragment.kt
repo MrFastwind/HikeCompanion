@@ -11,15 +11,18 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.chip.ChipGroup
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import io.github.mrfastwind.hikecompanion.R
 import io.github.mrfastwind.hikecompanion.ViewModel.PublicListViewModel
 import io.github.mrfastwind.hikecompanion.courses.CourseAdapter
 import io.github.mrfastwind.hikecompanion.courses.OnItemListener
 import io.github.mrfastwind.hikecompanion.utils.AddFragment
+import io.github.mrfastwind.hikecompanion.utils.ChipFilters
 import io.github.mrfastwind.hikecompanion.utils.Utilities
 
 class PublicFragment : Fragment(), OnItemListener, MenuProvider{
+    private var chipGroup: ChipGroup? = null
     private lateinit var adapter: CourseAdapter
     private val listViewModel: PublicListViewModel by activityViewModels()
 
@@ -48,6 +51,7 @@ class PublicFragment : Fragment(), OnItemListener, MenuProvider{
                     Utilities.launchFullscreenActivity(activity,"ADD")
                 }
             }
+
         } else {
             Log.e(LOG_TAG, "Activity is null")
         }
@@ -58,11 +62,12 @@ class PublicFragment : Fragment(), OnItemListener, MenuProvider{
      * @param activity the current activity
      */
     private fun setRecyclerView(activity: Activity) {
+        chipGroup = activity.findViewById<ChipGroup>(R.id.chip_group)
         val recyclerView = activity.findViewById<RecyclerView>(R.id.public_recycler_view)
         recyclerView?.let {
             recyclerView.setHasFixedSize(true)
             val listener: OnItemListener = this
-            adapter = CourseAdapter(listener, activity)
+            adapter = CourseAdapter(listener, activity,chipGroup!!)
             recyclerView.adapter = adapter
         }
     }
@@ -77,6 +82,7 @@ class PublicFragment : Fragment(), OnItemListener, MenuProvider{
                 )
             }
             listViewModel.setItemSelected(adapter.getItemSelected(position))
+            chipGroup!!.visibility = View.GONE
             //Utilities.launchDetailOnFullscreenActivity(activity,listViewModel.itemSelected.value!!.course.id.toString())
         }
     }
@@ -118,7 +124,7 @@ class PublicFragment : Fragment(), OnItemListener, MenuProvider{
              * suggestions if available, true if the action was handled by the listener.
              */
             override fun onQueryTextChange(newText: String): Boolean {
-                adapter.courseFilter.filter(newText);
+                adapter.setFilter(newText)
                 return true
             }
         })

@@ -10,5 +10,4 @@
             android:id="@+id/navigation_private"
             android:icon="@drawable/ic_home_black_24dp"
             android:title="@string/title_private"/>
-
 </menu>

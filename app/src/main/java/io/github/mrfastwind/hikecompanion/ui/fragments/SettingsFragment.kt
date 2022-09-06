@@ -17,6 +17,7 @@ import io.getstream.avatarview.AvatarView
 import io.getstream.avatarview.coil.loadImage
 import io.github.mrfastwind.hikecompanion.R
 import io.github.mrfastwind.hikecompanion.repository.ProfileRepository
+import io.github.mrfastwind.hikecompanion.utils.ImageUtilities
 import io.github.mrfastwind.hikecompanion.utils.Utilities
 
 
@@ -69,9 +70,9 @@ class SettingsFragment() : Fragment(), MenuProvider {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == IMAGE_CODE) {
             data?.data?.let {
-                Utilities.getImageBitmap(requireContext(), it)?.let {
+                ImageUtilities.getImageBitmap(requireContext(), it)?.let {
                     repository.setPicture(it)
-                    avatarView?.let { avatarView -> avatarView.loadImage(it)  }
+                    avatarView?.let { avatarView -> avatarView.loadImage(it) }
 
                 }
             }

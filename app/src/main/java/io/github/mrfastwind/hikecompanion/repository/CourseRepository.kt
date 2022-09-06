@@ -26,7 +26,7 @@ class CourseRepository(application: Application) {
             //temp.addSource(liveData { emit(DemoCourses.getCourses()) }){temp.value=it}
             //temp.addSource(publicCourseList){ temp.value = it }
 
-            publicCourseList= liveData { emit(DemoCourses.getCourses()) }
+            publicCourseList= liveData { emit(DemoCourses.getCourses(application.applicationContext)) }
             Log.d("Repository",publicCourseList.value?.size.toString())
         }
 
@@ -49,5 +49,11 @@ class CourseRepository(application: Application) {
 
     fun getCourse(UUID:String): CourseStages? {
         return courseDAO.getCourse(UUID)
+    }
+
+    fun deleteCourse(course: CourseStages) {
+        CourseDatabase.executor.execute {
+            courseDAO.deleteCourse(course)
+        }
     }
 }

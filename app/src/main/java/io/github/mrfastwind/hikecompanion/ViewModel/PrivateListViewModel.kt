@@ -29,4 +29,8 @@ class PrivateListViewModel(application: Application) : AndroidViewModel(applicat
     fun setItemSelected(course: CourseStages) {
         itemSelected.value = course
     }
+
+    fun deleteCourse(course: CourseStages){
+        repository.deleteCourse(course)
+    }
 }

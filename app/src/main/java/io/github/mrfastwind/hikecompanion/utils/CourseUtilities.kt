@@ -1,8 +1,18 @@
 package io.github.mrfastwind.hikecompanion.utils
 
+import android.content.Context
+import android.text.format.DateFormat
+import io.github.mrfastwind.hikecompanion.courses.CourseStages
+
 import io.github.mrfastwind.hikecompanion.courses.Stage
+import java.util.*
 
 object CourseUtilities {
+
+    fun Date.format(context: Context): String {
+        return DateFormat.getMediumDateFormat(context).format(this)
+    }
+
     fun courseLength(stages: List<Stage>):Float{
         var sum = 0F
         stages.forEachIndexed { index, stage ->
@@ -12,6 +22,11 @@ object CourseUtilities {
         }
         return sum
     }
+
+    fun courseLength(stages: CourseStages):Float{
+        return courseLength(stages.getOrderedStages())
+    }
+
     fun courseLengthAsString(stages: List<Stage>):String{
         var sum = 0F
         stages.forEachIndexed { index, stage ->

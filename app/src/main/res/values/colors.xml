@@ -11,4 +11,14 @@
     <color name="amber_500">#FF9900</color>
     <color name="amber_700">#c26f17</color>
 
+    <color name="blue">#247BA0</color>
+    <color name="blue_variant">#227396</color>
+    <color name="orange">#E8871E</color>
+    <color name="orange_variant">#DE7E17</color>
+    <color name="green">#A2D729</color>
+    <color name="green_variant">#8FBE23</color>
+    <color name="coffee">#342E37</color>
+    <color name="coffee_variant">#2A252C</color>
+
+
 </resources>

@@ -3,11 +3,16 @@ package io.github.mrfastwind.hikecompanion.utils
 import android.Manifest
 import android.app.Activity
 import android.content.pm.PackageManager
+import android.content.res.Resources
+import android.graphics.Paint
 import android.os.Build
 import android.util.Log
+import android.util.TypedValue
 import android.view.View
+import androidx.annotation.ColorInt
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat.checkSelfPermission
+import androidx.core.content.ContextCompat.*
+import io.github.mrfastwind.hikecompanion.R
 import io.github.mrfastwind.hikecompanion.courses.CourseStages
 import io.github.mrfastwind.hikecompanion.courses.Location
 import org.osmdroid.config.Configuration
@@ -17,6 +22,7 @@ import org.osmdroid.views.CustomZoomButtonsController
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.Marker
 import org.osmdroid.views.overlay.Polyline
+
 
 object MapUtilities : IRequirements{
     private var permissionRequested: Boolean = false
@@ -54,13 +60,14 @@ object MapUtilities : IRequirements{
     fun createPath(mapView: MapView):Polyline{
         var coursePath = Polyline()
         mapView.overlays.add(coursePath)
+        coursePath.outlinePaint.color = getColor(mapView.context,R.color.blue_variant)
+        coursePath.outlinePaint.strokeCap = Paint.Cap.ROUND;
         return coursePath
     }
 
     fun createPath(mapView: MapView,list:List<Location>):Polyline{
-        var coursePath = Polyline()
+        var coursePath = createPath(mapView)
         list.forEach { coursePath.addPoint(it.asGeoPoint()) }
-        mapView.overlays.add(coursePath)
         return coursePath
     }
 
@@ -83,6 +90,7 @@ object MapUtilities : IRequirements{
         val marker = Marker(mapView)
         marker.position = location.asGeoPoint()
         marker.setAnchor(Marker.ANCHOR_CENTER,Marker.ANCHOR_CENTER)
+        marker.icon = getDrawable(mapView.context,R.drawable.ic_baseline_navigation_24)
         mapView.overlays.add(marker)
         return marker
     }

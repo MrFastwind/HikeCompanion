@@ -17,19 +17,58 @@
             app:layout_constraintRight_toRightOf="parent"
             app:menu="@menu/bottom_nav_menu"/>
 
+    <com.google.android.material.chip.ChipGroup
+            android:layout_marginHorizontal="10dp"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:id="@+id/chip_group"
+            app:flow_horizontalAlign="center"
+            app:layout_constraintTop_toTopOf="parent"
+    >
+        <com.google.android.material.chip.Chip
+                android:id="@+id/less_1"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:text="@string/less_1km"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"/>
+
+        <com.google.android.material.chip.Chip
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:id="@+id/greater_1"
+                android:text="@string/more_1km"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"/>
+
+        <com.google.android.material.chip.Chip
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:id="@+id/less_10"
+                android:text="@string/less_10km"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"/>
+
+        <com.google.android.material.chip.Chip
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:id="@+id/greater_10"
+                android:text="@string/more_10km"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"/>
+
+    </com.google.android.material.chip.ChipGroup>
+
     <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fragment_container"
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             app:defaultNavHost="true"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:navGraph="@navigation/mobile_navigation"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintHeight="true"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintVertical_bias="1.0"
-            app:layout_constraintBottom_toTopOf="@+id/nav_view">
+            app:layout_constraintBottom_toTopOf="@+id/nav_view"
+            app:layout_constraintTop_toBottomOf="@+id/chip_group">
     </androidx.fragment.app.FragmentContainerView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
