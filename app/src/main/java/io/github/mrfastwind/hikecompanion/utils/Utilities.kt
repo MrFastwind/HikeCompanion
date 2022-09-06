@@ -54,7 +54,7 @@ object Utilities {
 
     fun insertFragment(activity: FragmentActivity, containerId:Int, fragment: Fragment, tag: String) {
         val transaction = activity.supportFragmentManager.beginTransaction()
-        val lastfragement = activity.supportFragmentManager.fragments.last()
+        val lastfragement = activity.supportFragmentManager.fragments.lastOrNull()
 
         if (lastfragement is DetailsFragment||
             lastfragement is EditableDetailsFragment){

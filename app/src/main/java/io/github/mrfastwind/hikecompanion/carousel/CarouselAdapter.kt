@@ -1,8 +1,10 @@
 package io.github.mrfastwind.hikecompanion.carousel
 
 import android.util.Log
+import android.widget.ImageView
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import io.github.mrfastwind.hikecompanion.R
 import io.github.mrfastwind.hikecompanion.courses.Picture
 import io.github.mrfastwind.hikecompanion.utils.ImageUtilities
 import org.imaginativeworld.whynotimagecarousel.ImageCarousel
@@ -16,6 +18,7 @@ class CarouselAdapter(private val carouselView:ImageCarousel) {
     private val updater: Observer<List<Picture>> = Observer { setList(it) }
 
     init {
+        carouselView.imageScaleType = ImageView.ScaleType.FIT_CENTER
     }
 
     fun setList(list: List<Picture>){
@@ -24,8 +27,15 @@ class CarouselAdapter(private val carouselView:ImageCarousel) {
             var item = CarouselItem(
                 imageUrl = ImageUtilities.getPicturePath(carouselView.context,it.id.toString()).path
             )
-            Log.d("", item.toString())
             items.add(item)
+        }
+        if (items.isEmpty()){
+            items.add(
+                CarouselItem(
+                    imageDrawable = R.drawable.baseline_image_not_supported_24,
+                    caption= carouselView.resources.getString(R.string.images_not_found)
+                )
+            )
         }
         carouselView.setData(items)
     }
@@ -33,6 +43,11 @@ class CarouselAdapter(private val carouselView:ImageCarousel) {
     fun setLiveList(list: LiveData<List<Picture>>){
         liveList?.removeObserver { updater}
         liveList = list
+        if(list.value!=null){
+            setList(list.value!!)
+        }else{
+            setList(listOf())
+        }
         list.observeForever { updater }
     }
 

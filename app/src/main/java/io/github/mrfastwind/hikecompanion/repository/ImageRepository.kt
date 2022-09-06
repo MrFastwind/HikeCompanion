@@ -43,7 +43,7 @@ class ImageRepository(application: Application) {
         val list:MediatorLiveData<List<Picture>> = MediatorLiveData()
         CourseDatabase.executor.execute {
             courseStages.stages.forEach {
-                list.addSource(pictureDAO.getPictureByDistance(it.location, distance)){value->value}
+                list.addSource(pictureDAO.getPictureByDistance(it.location, distance)){value->list.value=value}
             }
         }
         return imagesOfCourse

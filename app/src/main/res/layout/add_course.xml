@@ -17,15 +17,13 @@
                 android:paddingTop="0dp"
                 android:orientation="vertical">
 
+
             <org.osmdroid.views.MapView
                     android:layout_width="match_parent"
-                    android:layout_height="256dp"
+                    android:layout_height="216dp"
                     android:id="@+id/details_mapview"
                     android:layout_gravity="top"
             />
-
-
-
             <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -33,7 +31,7 @@
                     android:layout_weight="1"
                     android:gravity="center">
 
-                <androidx.appcompat.widget.AppCompatTextView
+                <TextView
                         android:id="@+id/travel_date"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -43,7 +41,7 @@
                         android:textAlignment="textStart"
                         app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"/>
 
-                <androidx.appcompat.widget.AppCompatTextView
+                <TextView
                         android:id="@+id/date_field"
                         android:text="00-00-0000"
                         android:layout_margin="10dp"
@@ -55,55 +53,43 @@
                         app:layout_constraintBottom_toBottomOf="parent"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-            <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@id/date_field"
+
+
+
+            <TextView
+                    android:id="@+id/name_label"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_weight="1"
-                    android:gravity="center">
+                    android:text="@string/course_title"
+                    android:layout_margin="10dp"
+                    android:textAlignment="textStart"
+            />
+            <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/name_field"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
+                    android:textAlignment="textStart" android:minHeight="48dp" android:hint="@string/course_title"/>
 
-                <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/name_label"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:text="@string/course_title"
-                        android:layout_margin="10dp"
-                        android:layout_weight="1"
-                        android:textAlignment="textStart"
-                        app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"/>
-
-                <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/name_field"
-                        android:text="Course name"
-                        android:layout_margin="10dp"
-                        android:textAlignment="textEnd"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content" app:layout_constraintStart_toEndOf="@+id/name_label"
-                        android:layout_marginStart="8dp" app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"/>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.appcompat.widget.AppCompatTextView
+            <TextView
                     android:id="@+id/course_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/description"
                     android:layout_margin="10dp"
             />
-            <androidx.appcompat.widget.AppCompatTextView
+            <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/description_field"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="10dp"
                     android:textAlignment="textStart"
                     android:inputType="text|textMultiLine"
-                    android:hint="@string/description" android:minHeight="48dp" android:textColorHint="#757575"/>
-            <androidx.appcompat.widget.AppCompatTextView
+                    android:hint="@string/description" android:minHeight="48dp"/>
+            <TextView
                     android:layout_marginHorizontal="10dp"
                     android:layout_marginTop="20dp"
+                    android:layout_marginVertical="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textAlignment="center"
@@ -115,17 +101,13 @@
             <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="10dp"
-            android:layout_marginVertical="5dp">
+                    android:layout_marginHorizontal="10dp">
 
-                <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@id/description_field"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:text="@string/course_length"
-                        android:layout_weight="5"/>
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                          android:text="@string/course_length"
+                          android:layout_weight="5"/>
 
-                <androidx.appcompat.widget.AppCompatTextView
+                <TextView
                         android:id="@id/distance_value"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -133,44 +115,37 @@
                         android:textAlignment="textEnd"
                         android:layout_weight="2"/>
 
-                <androidx.appcompat.widget.AppCompatTextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                           android:layout_weight="1"
                           android:text="@string/distance_unit"/>
 
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_marginHorizontal="10dp"
-                    android:layout_marginTop="20dp"
 
+            <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/public_switch"
+                    android:text="@string/is_public"
+                    android:textAlignment="textStart"
+                    android:layout_marginStart="10dp"
+                    android:layout_margin="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textAlignment="center"
-                    android:textStyle="bold"
-                    android:textAllCaps="true"
-                    android:text="@string/image_carousel"
-                    app:layout_constraintTop_toTopOf="parent"/>
 
-            <org.imaginativeworld.whynotimagecarousel.ImageCarousel
-                    android:id="@+id/carousel"
-                    android:layout_width="match_parent"
-                    android:layout_marginTop="5dp"
-                    android:layout_height="256dp"
-                    app:showNavigationButtons="false"
-                    app:imagePlaceholder="@drawable/baseline_image_not_supported_24"
-            />
-
+                    android:gravity="center|start" android:minHeight="48dp"/>
 
             <com.google.android.material.button.MaterialButton
-                    android:id="@+id/share_button"
+                    android:id="@+id/save_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/share"
+                    android:text="@string/dialog_save"
                     android:layout_gravity="center"
-                    android:layout_margin="10dp"
                     android:backgroundTint="@color/blue"
+                    android:layout_marginVertical="10dp"
             />
+
+
+
         </androidx.appcompat.widget.LinearLayoutCompat>
     </ScrollView>
 

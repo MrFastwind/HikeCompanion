@@ -43,4 +43,5 @@
     <string name="more_10km"><![CDATA[10km >]]></string>
     <string name="delete">Delete</string>
     <string name="id">Id</string>
+    <string name="images_not_found">No image has been found</string>
 </resources>

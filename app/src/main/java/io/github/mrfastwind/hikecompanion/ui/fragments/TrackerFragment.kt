@@ -64,7 +64,6 @@ class TrackerFragment: Fragment() {
     private val MIN_DISTANCE: Int=10
     private lateinit var map: MapView
     private val viewModel: AddViewModel by activityViewModels()
-    private val privateModel: PrivateListViewModel by activityViewModels()
     private val TAG: String = "TrackerFragment"
     private lateinit var course: Course
     private val stages: MutableList<Stage> = mutableListOf()
@@ -285,11 +284,10 @@ class TrackerFragment: Fragment() {
         var courseStages = CourseStages(
             course
             ,stages)
-        viewModel.addCourse(courseStages)
-        privateModel.setItemSelected(courseStages)
+        viewModel.setItemSelected(courseStages)
         clean()
         //send to details
-        Utilities.insertFragment(activity,R.id.fragment_container,EditableDetailsFragment())
+        Utilities.insertFragment(activity,R.id.fragment_container,AddFragment())
     }
 
     private fun onCancel(activity: FragmentActivity){

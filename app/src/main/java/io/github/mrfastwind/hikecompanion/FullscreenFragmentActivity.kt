@@ -7,16 +7,13 @@ import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import io.github.mrfastwind.hikecompanion.ViewModel.PrivateListViewModel
 import io.github.mrfastwind.hikecompanion.ViewModel.PublicListViewModel
 import io.github.mrfastwind.hikecompanion.ui.fragments.DetailsFragment
 import io.github.mrfastwind.hikecompanion.ui.fragments.EditableDetailsFragment
 import io.github.mrfastwind.hikecompanion.ui.fragments.SettingsFragment
 import io.github.mrfastwind.hikecompanion.ui.fragments.TrackerFragment
-import io.github.mrfastwind.hikecompanion.utils.AddFragment
 import io.github.mrfastwind.hikecompanion.utils.Utilities
-import java.util.UUID
 
 class FullscreenFragmentActivity: AppCompatActivity() {
     private val publicmodel: PublicListViewModel by viewModels()

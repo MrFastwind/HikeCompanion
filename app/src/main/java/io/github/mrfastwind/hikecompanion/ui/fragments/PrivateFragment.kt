@@ -53,11 +53,6 @@ class PrivateFragment : Fragment(), OnItemListener, MenuProvider {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        adapter.notifyDataSetChanged()
-    }
-
     /**
      * Method to set the RecyclerView and the relative adapter
      * @param activity the current activity
