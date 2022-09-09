@@ -1,4 +1,4 @@
-package io.github.mrfastwind.hikecompanion.ViewModel
+package io.github.mrfastwind.hikecompanion.viewmodel
 
 import android.app.Application
 import android.graphics.Bitmap
@@ -6,7 +6,6 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import io.github.mrfastwind.hikecompanion.courses.Course
 import io.github.mrfastwind.hikecompanion.courses.CourseStages
-import io.github.mrfastwind.hikecompanion.courses.Stage
 import io.github.mrfastwind.hikecompanion.repository.CourseRepository
 
 class AddViewModel(application: Application) : AndroidViewModel(application) {

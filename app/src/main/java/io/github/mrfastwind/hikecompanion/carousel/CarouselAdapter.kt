@@ -1,6 +1,5 @@
 package io.github.mrfastwind.hikecompanion.carousel
 
-import android.util.Log
 import android.widget.ImageView
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
@@ -15,10 +14,12 @@ class CarouselAdapter(private val carouselView:ImageCarousel) {
     private var liveList: LiveData<List<Picture>>? = null
     private var items: MutableList<CarouselItem> = mutableListOf()
 
-    private val updater: Observer<List<Picture>> = Observer { setList(it) }
+    private val updater: Observer<List<Picture>> = Observer {
+        setList(it.orEmpty()) }
 
     init {
         carouselView.imageScaleType = ImageView.ScaleType.FIT_CENTER
+        carouselView.infiniteCarousel = false
     }
 
     fun setList(list: List<Picture>){
@@ -38,17 +39,6 @@ class CarouselAdapter(private val carouselView:ImageCarousel) {
             )
         }
         carouselView.setData(items)
+        //carouselView.invalidate()
     }
-
-    fun setLiveList(list: LiveData<List<Picture>>){
-        liveList?.removeObserver { updater}
-        liveList = list
-        if(list.value!=null){
-            setList(list.value!!)
-        }else{
-            setList(listOf())
-        }
-        list.observeForever { updater }
-    }
-
 }

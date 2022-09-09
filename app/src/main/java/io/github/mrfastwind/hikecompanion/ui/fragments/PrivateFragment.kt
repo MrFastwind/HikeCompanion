@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import io.github.mrfastwind.hikecompanion.R
-import io.github.mrfastwind.hikecompanion.ViewModel.PrivateListViewModel
+import io.github.mrfastwind.hikecompanion.viewmodel.PrivateListViewModel
 import io.github.mrfastwind.hikecompanion.courses.CourseAdapter
 import io.github.mrfastwind.hikecompanion.courses.OnItemListener
 import io.github.mrfastwind.hikecompanion.utils.Utilities

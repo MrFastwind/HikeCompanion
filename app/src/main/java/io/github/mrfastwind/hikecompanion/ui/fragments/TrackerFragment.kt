@@ -21,7 +21,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
@@ -35,9 +34,8 @@ import com.google.android.gms.location.*
 import com.google.android.material.snackbar.BaseTransientBottomBar.BaseCallback
 import com.google.android.material.snackbar.Snackbar
 import io.github.mrfastwind.hikecompanion.R
-import io.github.mrfastwind.hikecompanion.ViewModel.AddViewModel
-import io.github.mrfastwind.hikecompanion.ViewModel.ImageViewModel
-import io.github.mrfastwind.hikecompanion.ViewModel.PrivateListViewModel
+import io.github.mrfastwind.hikecompanion.viewmodel.AddViewModel
+import io.github.mrfastwind.hikecompanion.viewmodel.ImageViewModel
 import io.github.mrfastwind.hikecompanion.courses.Course
 import io.github.mrfastwind.hikecompanion.courses.CourseStages
 import io.github.mrfastwind.hikecompanion.courses.Picture

@@ -1,4 +1,4 @@
-package io.github.mrfastwind.hikecompanion.ViewModel
+package io.github.mrfastwind.hikecompanion.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel

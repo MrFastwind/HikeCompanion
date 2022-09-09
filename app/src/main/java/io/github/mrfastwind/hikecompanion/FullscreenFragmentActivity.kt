@@ -7,8 +7,8 @@ import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import io.github.mrfastwind.hikecompanion.ViewModel.PrivateListViewModel
-import io.github.mrfastwind.hikecompanion.ViewModel.PublicListViewModel
+import io.github.mrfastwind.hikecompanion.viewmodel.PrivateListViewModel
+import io.github.mrfastwind.hikecompanion.viewmodel.PublicListViewModel
 import io.github.mrfastwind.hikecompanion.ui.fragments.DetailsFragment
 import io.github.mrfastwind.hikecompanion.ui.fragments.EditableDetailsFragment
 import io.github.mrfastwind.hikecompanion.ui.fragments.SettingsFragment

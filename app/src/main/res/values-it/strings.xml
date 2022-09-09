@@ -32,4 +32,8 @@
     <string name="dialog_save_text">Salvare immagine?</string>
     <string name="unknown_location">Posizione ssconosciuta</string>
     <string name="undo">Annullare</string>
+    <string name="filter">filtro</string>
+    <string name="delete">Cancella</string>
+    <string name="images_not_found">Nessuna immagine trovata</string>
+    <string name="course_message">Vedilo qui</string>
 </resources>

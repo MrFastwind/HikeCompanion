@@ -37,11 +37,12 @@
     <string name="unknown_location">unknown location</string>
     <string name="undo">Undo</string>
     <string name="filter">filter</string>
-    <string name="less_1km"><![CDATA[< 1km]]></string>
-    <string name="more_1km"><![CDATA[1km >]]></string>
-    <string name="less_10km"><![CDATA[< 10km]]></string>
-    <string name="more_10km"><![CDATA[10km >]]></string>
+    <string name="less_1km" translatable="false"><![CDATA[< 1km]]></string>
+    <string name="more_1km" translatable="false"><![CDATA[1km >]]></string>
+    <string name="less_10km" translatable="false"><![CDATA[< 10km]]></string>
+    <string name="more_10km" translatable="false"><![CDATA[10km >]]></string>
     <string name="delete">Delete</string>
-    <string name="id">Id</string>
+    <string name="id" translatable="false">Id</string>
     <string name="images_not_found">No image has been found</string>
+    <string name="course_message">Check it out here</string>
 </resources>

@@ -10,8 +10,8 @@ import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import io.github.mrfastwind.hikecompanion.R
-import io.github.mrfastwind.hikecompanion.ViewModel.ImageViewModel
-import io.github.mrfastwind.hikecompanion.ViewModel.PublicListViewModel
+import io.github.mrfastwind.hikecompanion.viewmodel.ImageViewModel
+import io.github.mrfastwind.hikecompanion.viewmodel.PublicListViewModel
 import io.github.mrfastwind.hikecompanion.carousel.CarouselAdapter
 import io.github.mrfastwind.hikecompanion.repository.ImageRepository
 import io.github.mrfastwind.hikecompanion.utils.CourseUtilities
@@ -59,24 +59,24 @@ open class DetailsFragment : Fragment(), MenuProvider {
             carousel = view.findViewById(R.id.carousel)
             carouselAdapter = CarouselAdapter(carousel)
 
-
             MapUtilities.configureView(mapview,activity,true)
 
             setUpObserver()
-
             //Button
-            view.findViewById<View>(R.id.share_button).setOnClickListener { view1: View ->
-                val shareIntent = Intent(Intent.ACTION_SEND)
-                ShareUtilities.share(this.resources,publicListViewModel.itemSelected.value!!)
-                shareIntent.putExtra(
-                    Intent.EXTRA_TEXT, ShareUtilities.share(this.resources,publicListViewModel.itemSelected.value!!)
-                )
-                shareIntent.type = "text/plain"
-                val context = view1.context
-                if (context != null && shareIntent.resolveActivity(context.packageManager) != null) {
-                    context.startActivity(Intent.createChooser(shareIntent, null))
-                }
-            }
+            view.findViewById<View>(R.id.share_button).setOnClickListener { view:View->share(view)}
+        }
+    }
+
+    private fun share(view: View) {
+        val shareIntent = Intent(Intent.ACTION_SEND)
+        ShareUtilities.sharePublicLink(this.resources,publicListViewModel.itemSelected.value!!)
+        shareIntent.putExtra(
+            Intent.EXTRA_TEXT, ShareUtilities.share(this.resources,publicListViewModel.itemSelected.value!!)
+        )
+        shareIntent.type = "text/plain"
+        val context = view.context
+        if (context != null && shareIntent.resolveActivity(context.packageManager) != null) {
+            context.startActivity(Intent.createChooser(shareIntent, null))
         }
     }
 
@@ -101,13 +101,10 @@ open class DetailsFragment : Fragment(), MenuProvider {
             MapUtilities.loadPath(mapview, course)
             distancetextView.text = CourseUtilities.courseLengthAsString(course.getOrderedStages())
 
-            //var liveList = imageRepository.loadImagesOfCourse(course)
-
-            carouselAdapter.setLiveList(imageRepository.loadImagesOfCourse(course))
-            var liveList = imageRepository.imageList
-//            liveList.observeForever {
-//                carouselAdapter.setList(liveList.value!!)
-//            }
+            var pictures  =imageRepository.getImagesOfCourse(course)
+            pictures.observe(viewLifecycleOwner){pictures ->
+                carouselAdapter.setList(pictures)
+            }
         }
     }
 }
