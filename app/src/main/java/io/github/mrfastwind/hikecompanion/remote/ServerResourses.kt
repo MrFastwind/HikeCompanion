@@ -1,11 +1,12 @@
-package io.github.mrfastwind.hikecompanion.utils
+package io.github.mrfastwind.hikecompanion.remote
 
 import android.net.Uri
 import java.util.*
 
 object ServerResourses {
-    fun getCourse(uuid: UUID): Uri {
-        val DOMAIN = "example.com"
+    const val DOMAIN = "example.com"
+    fun getCourseUrl(uuid: UUID): Uri {
+
         return Uri.Builder().scheme("http")
             .authority(DOMAIN)
             .appendPath("course")
