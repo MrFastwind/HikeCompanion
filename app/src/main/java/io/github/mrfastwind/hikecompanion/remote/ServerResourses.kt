@@ -14,4 +14,11 @@ object ServerResourses {
             .build()
     }
 
+    fun getCoursesUrl(): Any {
+        return Uri.Builder().scheme("http")
+            .authority(DOMAIN)
+            .appendPath("courses")
+            .build()
+    }
+
 }

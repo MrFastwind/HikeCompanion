@@ -10,6 +10,7 @@ import io.github.mrfastwind.hikecompanion.courses.DemoCourses
 import io.github.mrfastwind.hikecompanion.courses.Picture
 import io.github.mrfastwind.hikecompanion.database.CourseDatabase
 import io.github.mrfastwind.hikecompanion.database.PictureDAO
+import io.github.mrfastwind.hikecompanion.utils.LiveDataUtils
 
 class ImageRepository(application: Application) {
     private var filteredList: MediatorLiveData<List<Picture>>? = null
@@ -29,29 +30,17 @@ class ImageRepository(application: Application) {
         mediator.value= mutableListOf()
         val dbImages = pictureDAO.getAllPicture()
         mediator.addSource(dbImages){value->
-            updateList(mediator, imageSourceMap, dbImages, value)
+            LiveDataUtils.updateList(mediator, imageSourceMap, dbImages, value)
         }
         if (!online){
             val demo = liveData{emit(DemoCourses.getImages(application))}
             mediator.addSource(demo){
-                updateList(mediator,imageSourceMap,demo,it)
+                LiveDataUtils.updateList(mediator,imageSourceMap,demo,it)
             }
         }
         imageList = mediator as LiveData<List<Picture>>
         imageList=dbImages
         imagesOfCourse = MutableLiveData()
-    }
-
-    private fun <E> updateList(
-        mediator: MediatorLiveData<MutableList<E>>,
-        map: MutableMap<LiveData<List<E>>, List<E>>,
-        liveData: LiveData<List<E>>,
-        newValue: List<E>
-    ){
-        mediator.value?.removeAll(map[liveData].orEmpty())
-        map[liveData] = newValue
-        mediator.value?.addAll(map[liveData]!!)
-
     }
 
     // You must call this on a non-UI thread or your app will throw an exception. Room ensures

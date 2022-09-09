@@ -18,10 +18,6 @@ class PrivateListViewModel(application: Application) : AndroidViewModel(applicat
         courseItems = repository.privateCourseList
     }
 
-    fun getCourse(UUID: String):CourseStages?{
-        return repository.getCourse(UUID)
-    }
-
     fun updateCourse(course: Course){
         repository.updateCourse(course)
     }

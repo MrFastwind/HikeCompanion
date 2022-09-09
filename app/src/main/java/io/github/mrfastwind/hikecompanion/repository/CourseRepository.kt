@@ -1,20 +1,18 @@
 package io.github.mrfastwind.hikecompanion.repository
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.*
 import io.github.mrfastwind.hikecompanion.courses.Course
 import io.github.mrfastwind.hikecompanion.courses.CourseStages
 import io.github.mrfastwind.hikecompanion.courses.DemoCourses
 import io.github.mrfastwind.hikecompanion.database.CourseDatabase
 import io.github.mrfastwind.hikecompanion.database.CourseDAO
-import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.merge
-import okhttp3.internal.notify
+import io.github.mrfastwind.hikecompanion.remote.RegistryClient
+import io.github.mrfastwind.hikecompanion.utils.LiveDataUtils
 
 class CourseRepository(application: Application) {
     private var online: Boolean = false
+    private val client: RegistryClient = RegistryClient(application.applicationContext,online)
     private val courseDAO: CourseDAO
     // Room executes all queries on a separate thread.
     // Observed LiveData will notify the observer when the data has changed.
@@ -25,47 +23,56 @@ class CourseRepository(application: Application) {
         courseDAO = application.let { CourseDatabase.getDatabase(it)?.courseDAO() }!!
         //get remote Courses
 
-        var list = MediatorLiveData<MutableList<CourseStages>>()
-        var demo = liveData { emit(DemoCourses.getCourses(application.applicationContext)) }
+        val sourceMap: MutableMap<LiveData<List<CourseStages>>,List<CourseStages>> = mutableMapOf()
+
+        var mediator = MediatorLiveData<MutableList<CourseStages>>()
+        mediator.value= mutableListOf()
         var published =courseDAO.getPublicCourseStages()
-        var oldlist = published.value.orEmpty()
-        list.value= mutableListOf()
-        list.addSource(demo){value->
-                list.value?.removeAll(demo.value.orEmpty())
-            if(!online){
-                list.value?.addAll(value)
+
+        if(online){
+            val remote = client.getCourses()
+            mediator.addSource(remote){value->
+                LiveDataUtils.updateList(mediator,sourceMap,remote,value)
+            }
+        }else{
+            var demo = liveData { emit(DemoCourses.getCourses(application.applicationContext)) }
+            mediator.addSource(demo){value->
+                mediator.value?.removeAll(demo.value.orEmpty())
+                if(!online){
+                    mediator.value?.addAll(value)
+                }
             }
         }
-        list.addSource(published){value->
-            list.value?.removeAll(oldlist)
-            list.value?.addAll(value.orEmpty())
-            oldlist=value.orEmpty()
-        }
-        publicCourseList= list as LiveData<List<CourseStages>>
 
+        mediator.addSource(published){value->
+            LiveDataUtils.updateList(mediator,sourceMap,published,value)
+        }
+
+        publicCourseList= mediator as LiveData<List<CourseStages>>
         privateCourseList= courseDAO.getCoursesWithStages
     }
 
-    fun addCourse(course:Course) {
-        CourseDatabase.executor.execute {
-            courseDAO.addCourse(course)
-        }
-    }
-
     fun addFullCourse(course: CourseStages){
-        CourseDatabase.executor.execute { courseDAO.addCourseWithStages(course.course,course.stages) }
+        CourseDatabase.executor.execute {
+            if(online){
+                val result = client.pushCourse(course)
+            }
+            courseDAO.addCourseWithStages(course.course,course.stages) }
     }
 
     fun updateCourse(course: Course){
-        CourseDatabase.executor.execute { courseDAO.updateCourse(course) }
-    }
-
-    fun getCourse(UUID:String): CourseStages? {
-        return courseDAO.getCourse(UUID)
+        CourseDatabase.executor.execute {
+            if(online){
+                val result = client.updateCourse(course)
+            }
+            courseDAO.updateCourse(course) }
     }
 
     fun deleteCourse(course: CourseStages) {
         CourseDatabase.executor.execute {
+            if (online){
+                val result = client.deleteCourse(course)
+            }
             courseDAO.deleteCourse(course)
         }
     }
