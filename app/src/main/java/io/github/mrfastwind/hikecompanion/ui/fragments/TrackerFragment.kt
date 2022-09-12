@@ -351,7 +351,7 @@ class TrackerFragment: Fragment() {
         android.app.AlertDialog.Builder(activity)
             .setMessage(R.string.dialog_permission_denied)
             .setCancelable(false)
-            .setPositiveButton(R.string.dialog_ok) { _, _ -> activity.startActivity(Intent(Settings.ACTION_LOCALE_SETTINGS)) }
+            .setPositiveButton(R.string.dialog_ok) { _, _ -> activity.startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)) }
             .setNegativeButton(R.string.dialog_cancel) { dialog, _ -> dialog.cancel() }
             .create()
             .show()
