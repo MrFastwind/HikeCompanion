@@ -1,5 +1,6 @@
 *.iml
 .idea/deploymentTargetDropDown.xml
+.idea/misc.xml
 .gradle
 gradle/
 gradlew
