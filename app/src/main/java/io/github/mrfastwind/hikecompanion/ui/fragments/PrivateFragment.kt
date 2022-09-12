@@ -2,7 +2,6 @@ package io.github.mrfastwind.hikecompanion.ui.fragments
 
 import android.app.Activity
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
@@ -37,19 +36,18 @@ class PrivateFragment : Fragment(), OnItemListener, MenuProvider {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val activity = activity
-        if (activity != null) {
-            (activity as AppCompatActivity).let { Utilities.setUpToolbar(it, getString(R.string.app_name)) }
-            setRecyclerView(activity)
-            listViewModel.courseItems.observe(activity) { adapter.setData(it) }
-            val floatingActionButton = view.findViewById<FloatingActionButton>(R.id.fab_add)
-            floatingActionButton?.let {
-                it.setOnClickListener {
-                    Utilities.launchFullscreenActivity(activity,"ADD")
-                }
+        val activity = requireActivity()
+        (activity as AppCompatActivity).let { Utilities.setUpToolbar(it, getString(R.string.app_name)) }
+        setRecyclerView(activity)
+        listViewModel.courseItems.observe(activity) {
+            adapter.setData(it)
+            //view.findViewById<RecyclerView>(R.id.private_recycler_view)?.refreshDrawableState()
+        }
+        val floatingActionButton = view.findViewById<FloatingActionButton>(R.id.fab_add)
+        floatingActionButton?.let {
+            it.setOnClickListener {
+                Utilities.launchFullscreenActivity(activity,"ADD")
             }
-        } else {
-            Log.e(LOG_TAG, "Activity is null")
         }
     }
 
@@ -71,11 +69,11 @@ class PrivateFragment : Fragment(), OnItemListener, MenuProvider {
         val activity: FragmentActivity? = activity
         if (activity != null) {
             Utilities.insertFragment(
-                activity as AppCompatActivity, EditableDetailsFragment(),
+                activity, EditableDetailsFragment(),
                 DetailsFragment::class.java.simpleName
             )
+       listViewModel.setItemSelected(adapter.getItemSelected(position))
             //Utilities.launchEditableDetailOnFullscreenActivity(activity,listViewModel.itemSelected.value!!.course.id.toString())
-            listViewModel.itemSelected.value = (adapter?.getItemSelected(position))
         }
     }
 
@@ -105,6 +103,7 @@ class PrivateFragment : Fragment(), OnItemListener, MenuProvider {
              * SearchView perform the default action.
              */
             override fun onQueryTextSubmit(query: String): Boolean {
+                onQueryTextChange(query)
                 return false
             }
 
@@ -115,7 +114,7 @@ class PrivateFragment : Fragment(), OnItemListener, MenuProvider {
              * suggestions if available, true if the action was handled by the listener.
              */
             override fun onQueryTextChange(newText: String): Boolean {
-                adapter?.setFilter(newText)
+                adapter.setFilter(newText)
                 return true
             }
         })

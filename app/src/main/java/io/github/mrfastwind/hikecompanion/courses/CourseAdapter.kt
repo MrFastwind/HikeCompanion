@@ -125,7 +125,7 @@ open class CourseAdapter(private val listener: OnItemListener, private val activ
     }
 
     /**
-     * Method that set the list in the Home
+     * Method that set the list
      * @param list the list to display in the home
      */
     fun setData(list: List<CourseStages>) {
@@ -134,6 +134,7 @@ open class CourseAdapter(private val listener: OnItemListener, private val activ
         courseList= ArrayList(list)
         courseListNotFiltered = ArrayList(list)
         diffResult.dispatchUpdatesTo(this)
+        notifyDataSetChanged()
     }
 
     /**

@@ -20,7 +20,6 @@ import io.github.mrfastwind.hikecompanion.courses.OnItemListener
 import io.github.mrfastwind.hikecompanion.utils.Utilities
 
 class PublicFragment : Fragment(), OnItemListener, MenuProvider{
-    private var chipGroup: ChipGroup? = null
     private lateinit var adapter: CourseAdapter
     private val listViewModel: PublicListViewModel by activityViewModels()
 
@@ -42,14 +41,15 @@ class PublicFragment : Fragment(), OnItemListener, MenuProvider{
         if (activity != null) {
             (activity as AppCompatActivity).let { Utilities.setUpToolbar(it, getString(R.string.app_name)) }
             setRecyclerView(activity)
-            listViewModel.courseItems.observe(activity) { adapter.setData(it) }
+            listViewModel.courseItems.observe(activity) {
+                adapter.setData(it)
+            }
             val floatingActionButton = view.findViewById<FloatingActionButton>(R.id.fab_add)
             floatingActionButton?.let {
                 it.setOnClickListener {
                     Utilities.launchFullscreenActivity(activity,"ADD")
                 }
             }
-
         } else {
             Log.e(LOG_TAG, "Activity is null")
         }
@@ -60,7 +60,7 @@ class PublicFragment : Fragment(), OnItemListener, MenuProvider{
      * @param activity the current activity
      */
     private fun setRecyclerView(activity: Activity) {
-        chipGroup = activity.findViewById<ChipGroup>(R.id.chip_group)
+        val chipGroup = activity.findViewById<ChipGroup>(R.id.chip_group)
         val recyclerView = activity.findViewById<RecyclerView>(R.id.public_recycler_view)
         recyclerView?.let {
             recyclerView.setHasFixedSize(true)
@@ -72,15 +72,11 @@ class PublicFragment : Fragment(), OnItemListener, MenuProvider{
     override fun onItemClick(position: Int) {
         val activity: FragmentActivity? = activity
         if (activity != null) {
-            (activity as AppCompatActivity?)?.let {
-                var fragment = DetailsFragment()
-                Utilities.insertFragment(
-                    it, fragment,
-                    DetailsFragment::class.java.simpleName
-                )
-            }
+            Utilities.insertFragment(
+                activity, DetailsFragment(),
+                DetailsFragment::class.java.simpleName
+            )
             listViewModel.setItemSelected(adapter.getItemSelected(position))
-            chipGroup!!.visibility = View.GONE
             //Utilities.launchDetailOnFullscreenActivity(activity,listViewModel.itemSelected.value!!.course.id.toString())
         }
     }
@@ -127,7 +123,8 @@ class PublicFragment : Fragment(), OnItemListener, MenuProvider{
             }
         })
     }
+
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-        return false;
+        return false
     }
 }

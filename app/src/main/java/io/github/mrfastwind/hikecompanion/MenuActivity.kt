@@ -8,7 +8,10 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentContainer
+import androidx.fragment.app.FragmentContainerView
 import androidx.lifecycle.ViewModel
+import androidx.navigation.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -17,6 +20,8 @@ import io.github.mrfastwind.hikecompanion.ui.fragments.EditableDetailsFragment
 import io.github.mrfastwind.hikecompanion.ui.fragments.PrivateFragment
 import io.github.mrfastwind.hikecompanion.ui.fragments.PublicFragment
 import io.github.mrfastwind.hikecompanion.utils.Utilities
+import io.github.mrfastwind.hikecompanion.viewmodel.PrivateListViewModel
+import io.github.mrfastwind.hikecompanion.viewmodel.PublicListViewModel
 
 class MenuActivity : AppCompatActivity() {
 
@@ -39,7 +44,11 @@ class MenuActivity : AppCompatActivity() {
         
         setContentView(R.layout.activity_menu)
 
+        loadFragment(PrivateFragment())
+        loadFragment(PublicFragment())
+
         savedInstanceState?.let {
+
             loadFragment(PublicFragment())
         }
         bottomNav = findViewById<BottomNavigationView>(R.id.nav_view)
@@ -59,10 +68,6 @@ class MenuActivity : AppCompatActivity() {
             chipGroup = findViewById<ChipGroup>(R.id.chip_group)
             chipGroup!!.visibility=View.VISIBLE
             return@setOnItemSelectedListener true
-        }
-        findViewById<FloatingActionButton?>(R.id.fab_add)?.setOnClickListener {
-            Utilities.launchFullscreenActivity(this,"ADD")
-            //Utilities.insertFragment(activity, AddFragment()
         }
     }
 
@@ -97,15 +102,13 @@ class MenuActivity : AppCompatActivity() {
             findViewById<ChipGroup>(R.id.chip_group).visibility=View.GONE
         }
 
-        super.onBackPressed()
-        return
-
-        if (count == 0) {
-            super.onBackPressed()
-            //additional code
-        } else {
-            supportFragmentManager.popBackStack()
+        if(fragment is PrivateFragment){
+            findViewById<BottomNavigationView>(R.id.nav_view)?.selectedItemId =R.id.navigation_public
+        }
+        if(fragment is PublicFragment){
+            fragment.activity?.finish()
         }
 
+        super.onBackPressed()
     }
 }

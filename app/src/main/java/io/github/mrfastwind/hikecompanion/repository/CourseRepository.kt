@@ -49,7 +49,7 @@ class CourseRepository(application: Application) {
         }
 
         publicCourseList= mediator as LiveData<List<CourseStages>>
-        privateCourseList= courseDAO.getCoursesWithStages
+        privateCourseList= courseDAO.getCoursesWithStages()
     }
 
     fun addFullCourse(course: CourseStages){

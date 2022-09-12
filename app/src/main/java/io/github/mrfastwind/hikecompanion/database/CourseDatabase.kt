@@ -76,6 +76,10 @@ interface CourseDAO {
     @get:Query("SELECT * FROM COURSE")
     val getCoursesWithStages: LiveData<List<CourseStages>>
 
+    @Transaction
+    @Query("SELECT * FROM COURSE")
+    fun getCoursesWithStages(): LiveData<List<CourseStages>>
+
     // @Transaction: anything inside the method runs in a single transaction.
     @get:Transaction
     @get:Query("SELECT * FROM COURSE")
