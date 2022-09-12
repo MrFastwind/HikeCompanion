@@ -41,11 +41,6 @@ object MapUtilities : IRequirements{
         Configuration.getInstance().userAgentValue = activity.applicationContext.applicationContext.packageName
         Configuration.getInstance().tileDownloadThreads = 2
 
-        /*
-        BingMapTileSource.setBingKey("AuEudoTLnv19qlN5oYBRpf0C87JTlomZ_8eJr45ZpGzFZdUMKH8lfWOzRaUQXxcK")
-        var bing = BingMapTileSource(null)
-        bing.style = BingMapTileSource.IMAGERYSET_ROAD
-        */
         mapView.minZoomLevel=8.0
         mapView.maxZoomLevel=19.0
         mapView.controller.setZoom(18.0)
