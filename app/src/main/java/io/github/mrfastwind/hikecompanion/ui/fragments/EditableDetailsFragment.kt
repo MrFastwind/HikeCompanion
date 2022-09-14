@@ -89,6 +89,7 @@ class EditableDetailsFragment : Fragment() {
 
         //setUpObserver
         model.itemSelected.observe(viewLifecycleOwner) { course ->
+            date.text = courseStages.course.date
             name.setText(courseStages.course.name)
             description.setText(courseStages.course.description)
             publicSwitch.isChecked=courseStages.course.published
