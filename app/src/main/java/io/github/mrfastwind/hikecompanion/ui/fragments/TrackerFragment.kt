@@ -299,12 +299,10 @@ class TrackerFragment: Fragment() {
     }
 
     private val permissions= arrayOf(
-        Manifest.permission.ACCESS_FINE_LOCATION,
-        Manifest.permission.ACCESS_COARSE_LOCATION
+        Manifest.permission.ACCESS_FINE_LOCATION
     )
 
     private fun startLocationUpdates(activity: Activity) {
-        val PERMISSION_REQUESTED = Manifest.permission.ACCESS_FINE_LOCATION
         if(checkPermission(activity)) {
             checkStatusGPS(activity)
             fusedLocationProviderClient.requestLocationUpdates(
@@ -312,13 +310,10 @@ class TrackerFragment: Fragment() {
                 locationCallback,
                 Looper.getMainLooper()
             )
-        }else if(ActivityCompat.shouldShowRequestPermissionRationale(activity,
-                    PackageManager.PERMISSION_GRANTED.toString()
-                ))
-        {
-            showDialog(activity)
         }else{
-            requestPermissionLauncher!!.launch(PERMISSION_REQUESTED)
+            permissions.forEach {
+                requestPermissionLauncher!!.launch(it)
+            }
         }
     }
 
@@ -339,20 +334,26 @@ class TrackerFragment: Fragment() {
         for (it in permissions){
             if(ActivityCompat.checkSelfPermission(activity,it)!=PackageManager.PERMISSION_GRANTED){
                 if(ActivityCompat.shouldShowRequestPermissionRationale(activity, it)){
-                    showDialog(activity)
+                    showDialog(activity,it)
                 }else{
-                    requestPermissionLauncher!!.launch(it)
+                    return false
                 }
             }
         }
         return true
     }
-    private fun showDialog(activity: Activity) {
+    private fun showDialog(activity: Activity,permission: String="") {
         android.app.AlertDialog.Builder(activity)
             .setMessage(R.string.dialog_permission_denied)
             .setCancelable(false)
-            .setPositiveButton(R.string.dialog_ok) { _, _ -> activity.startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)) }
-            .setNegativeButton(R.string.dialog_cancel) { dialog, _ -> dialog.cancel() }
+            .setPositiveButton(R.string.dialog_ok) { dialog, _ ->
+                if(ActivityCompat.checkSelfPermission(activity,permission)==PackageManager.PERMISSION_GRANTED)
+                    dialog.dismiss()
+                else activity.startActivity(Intent(Settings.ACTION_APPLICATION_SETTINGS))
+            }
+            .setNegativeButton(R.string.dialog_cancel) { dialog, _ ->
+                dialog.cancel()
+                onCancel(activity as FragmentActivity)}
             .create()
             .show()
     }

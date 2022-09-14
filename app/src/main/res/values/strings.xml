@@ -20,7 +20,7 @@
     <string name="share">Share</string>
     <string name="bar_no_internet">no internet</string>
     <string name="add_new_trip">Add new trip</string>
-    <string name="dialog_permission_denied">Enable permission</string>
+    <string name="dialog_permission_denied">Enable location permission</string>
     <string name="dialog_ok" translatable="false">OK</string>
     <string name="dialog_cancel">Cancel</string>
     <string name="dialog_yes">Yes</string>

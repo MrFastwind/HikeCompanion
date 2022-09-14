@@ -18,7 +18,7 @@
     <string name="share">Condividi</string>
     <string name="bar_no_internet">internet non disponibile</string>
     <string name="add_new_trip">Aggiungi percorso</string>
-    <string name="dialog_permission_denied">Abilita i permessi</string>
+    <string name="dialog_permission_denied">Abilita i permessi di loccalizzazione</string>
     <string name="dialog_cancel">Annulla</string>
     <string name="dialog_yes">Si</string>
     <string name="dialog_no">No</string>
